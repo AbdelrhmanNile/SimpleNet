@@ -24,15 +24,15 @@ model.load(
 )
 
 
-img_path = "path/to/image.jpg"
+img_path = "/content/dataset/screw/test/scratch_neck/000.png"
 img = PIL.Image.open(img_path).convert("RGB")
 # to batch of tensors
-transform_img = [transforms.Resize(input_size)]
+transform_img = [transforms.Resize(288),transforms.ToTensor(),]
 transform_img = transforms.Compose(transform_img)
 img = transform_img(img)
 
 #make batch of 1
 img = img.unsqueeze(0)
 
-print(model.test(test_data=img, save_segmentation_images=True))
+print(model.test(test_data=img, save_segmentation_images=True, ckpt_path="/content/ckpt.pth"))
 

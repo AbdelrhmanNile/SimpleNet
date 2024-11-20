@@ -22,6 +22,9 @@ import common
 import metrics
 from utils import plot_segmentation_images
 
+import matplotlib.pyplot as plt
+
+
 LOGGER = logging.getLogger(__name__)
 
 def init_weight(m):
@@ -645,37 +648,57 @@ class SimpleNet(torch.nn.Module):
             pickle.dump(params, save_file, pickle.HIGHEST_PROTOCOL)
 
     def save_segmentation_images(self, data, segmentations, scores):
-        image_paths = [
-            x[2] for x in data.dataset.data_to_iterate
-        ]
-        mask_paths = [
-            x[3] for x in data.dataset.data_to_iterate
-        ]
 
-        def image_transform(image):
-            in_std = np.array(
-                data.dataset.transform_std
-            ).reshape(-1, 1, 1)
-            in_mean = np.array(
-                data.dataset.transform_mean
-            ).reshape(-1, 1, 1)
-            image = data.dataset.transform_img(image)
-            return np.clip(
-                (image.numpy() * in_std + in_mean) * 255, 0, 255
-            ).astype(np.uint8)
+        if isinstance(data, torch.utils.data.DataLoader):
+            image_paths = [
+                x[2] for x in data.dataset.data_to_iterate
+            ]
+            mask_paths = [
+                x[3] for x in data.dataset.data_to_iterate
+            ]
 
-        def mask_transform(mask):
-            return data.dataset.transform_mask(mask).numpy()
+            def image_transform(image):
+                in_std = np.array(
+                    data.dataset.transform_std
+                ).reshape(-1, 1, 1)
+                in_mean = np.array(
+                    data.dataset.transform_mean
+                ).reshape(-1, 1, 1)
+                image = data.dataset.transform_img(image)
+                return np.clip(
+                    (image.numpy() * in_std + in_mean) * 255, 0, 255
+                ).astype(np.uint8)
 
-        plot_segmentation_images(
-            './output',
-            image_paths,
-            segmentations,
-            scores,
-            mask_paths,
-            image_transform=image_transform,
-            mask_transform=mask_transform,
-        )
+            def mask_transform(mask):
+                return data.dataset.transform_mask(mask).numpy()
+
+            plot_segmentation_images(
+                './output',
+                image_paths,
+                segmentations,
+                scores,
+                mask_paths,
+                image_transform=image_transform,
+                mask_transform=mask_transform,
+            )
+        else:
+            image = data.cpu().numpy()
+            image = data[0]
+            masks_provided = False
+            mask = np.zeros_like(image)
+            segmentation = segmentations[0]
+            savename = "/content/result.jpg"
+            f, axes = plt.subplots(1, 2 + int(masks_provided))
+            axes[0].imshow(image.transpose(1, 2, 0))
+            axes[1].imshow(mask.transpose(1, 2, 0))
+            axes[2].imshow(segmentation)
+            f.set_size_inches(3 * (2 + int(masks_provided)), 3)
+            f.tight_layout()
+            f.savefig(savename)
+            plt.close()
+
+
+
 
 # Image handling classes.
 class PatchMaker:

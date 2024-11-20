@@ -5,6 +5,8 @@ import utils
 import PIL
 from torchvision import transforms
 
+IMAGENET_MEAN = [0.485, 0.456, 0.406]
+IMAGENET_STD = [0.229, 0.224, 0.225]
 
 backbone = backbones.load("wideresnet50")
 layers_to_extract = ["layer2", "layer3"]
@@ -27,7 +29,7 @@ model.load(
 img_path = "/content/dataset/screw/test/scratch_neck/000.png"
 img = PIL.Image.open(img_path).convert("RGB")
 # to batch of tensors
-transform_img = [transforms.Resize(288),transforms.ToTensor(),]
+transform_img = [transforms.Resize(288),transforms.ToTensor(),transforms.Normalize(mean=IMAGENET_MEAN, std=IMAGENET_STD)]
 transform_img = transforms.Compose(transform_img)
 img = transform_img(img)
 

@@ -12,7 +12,7 @@ from datasets.mvtec import DatasetSplit
 
 test_dataset = MVTecDataset(
                 "/content/dataset",
-                classname=["screw"],
+                classname="screw",
                 resize=329,
                 imagesize=288,
                 split=DatasetSplit.TEST,

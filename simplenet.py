@@ -575,7 +575,7 @@ class SimpleNet(torch.nn.Module):
                         masks_gt.extend(data["mask"].numpy().tolist())
                     image = data["image"]
                     img_paths.extend(data['image_path'])
-                _scores, _masks, _feats = self._predict(image)
+                _scores, _masks, _feats, _, _ = self._predict(image)
                 for score, mask, feat, is_anomaly in zip(_scores, _masks, _feats, data["is_anomaly"].numpy().tolist()):
                     scores.append(score)
                     masks.append(mask)

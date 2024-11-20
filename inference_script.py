@@ -31,5 +31,8 @@ transform_img = [transforms.Resize(input_size)]
 transform_img = transforms.Compose(transform_img)
 img = transform_img(img)
 
+#make batch of 1
+img = img.unsqueeze(0)
+
 print(model.test(test_data=img, save_segmentation_images=True))
 

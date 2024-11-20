@@ -19,6 +19,15 @@ test_dataset = MVTecDataset(
                 seed=0,
 )
 
+test_dataloader = torch.utils.data.DataLoader(
+                test_dataset,
+                batch_size=8,
+                shuffle=False,
+                num_workers=4,
+                prefetch_factor=2,
+                pin_memory=True,
+            )
+
 IMAGENET_MEAN = [0.485, 0.456, 0.406]
 IMAGENET_STD = [0.229, 0.224, 0.225]
 
@@ -50,5 +59,5 @@ img = transform_img(img)
 #make batch of 1
 img = img.unsqueeze(0)
 
-print(model.test(test_data=test_dataset, save_segmentation_images=True, ckpt_path="/content/ckpt.pth"))
+print(model.test(test_data=test_dataloader, save_segmentation_images=True, ckpt_path="/content/ckpt.pth"))
 

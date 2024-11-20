@@ -340,10 +340,11 @@ class SimpleNet(torch.nn.Module):
         )["auroc"]
 
         # Compute PRO score & PW Auroc for all images
-        pixel_scores = metrics.compute_pixelwise_retrieval_metrics(
-            segmentations, masks_gt
-        )
-        full_pixel_auroc = pixel_scores["auroc"]
+        #pixel_scores = metrics.compute_pixelwise_retrieval_metrics(
+        #    segmentations, masks_gt
+        #)
+        #full_pixel_auroc = pixel_scores["auroc"]
+        full_pixel_auroc = None
 
         return auroc, full_pixel_auroc
     
@@ -615,7 +616,7 @@ class SimpleNet(torch.nn.Module):
             features = features.reshape(batchsize, scales[0], scales[1], -1)
             masks, features = self.anomaly_segmentor.convert_to_segmentation(patch_scores, features)
 
-        return list(image_scores), list(masks), list(features)
+        return list(image_scores), list(masks), list(features), [], []
 
     @staticmethod
     def _params_file(filepath, prepend=""):

@@ -3,6 +3,7 @@ import torch
 import backbones
 import utils
 import PIL
+from torchvision import transforms
 
 
 backbone = backbones.load("wideresnet50")
@@ -24,7 +25,11 @@ model.load(
 
 
 img_path = "path/to/image.jpg"
-img = PIL.Image.open(image_path).convert("RGB")
+img = PIL.Image.open(img_path).convert("RGB")
+# to batch of tensors
+transform_img = [transforms.Resize(input_size)]
+transform_img = transforms.Compose(transform_img)
+img = transform_img(img)
 
 print(model.test(test_data=img, save_segmentation_images=True))
 

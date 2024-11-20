@@ -331,25 +331,24 @@ class SimpleNet(torch.nn.Module):
         segmentations = (segmentations - min_scores) / (max_scores - min_scores)
         segmentations = np.mean(segmentations, axis=0)
 
-        #anomaly_labels = [
-        #    x[1] != "good" for x in test_data.dataset.data_to_iterate
-        #]
+        anomaly_labels = [
+            x[1] != "good" for x in test_data.dataset.data_to_iterate
+        ]
 
         if save_segmentation_images:
             self.save_segmentation_images(test_data, segmentations, scores)
             
-        #auroc = metrics.compute_imagewise_retrieval_metrics(
-        #    scores, anomaly_labels
-        #)["auroc"]
+        auroc = metrics.compute_imagewise_retrieval_metrics(
+            scores, anomaly_labels
+        )["auroc"]
 
         # Compute PRO score & PW Auroc for all images
-        #pixel_scores = metrics.compute_pixelwise_retrieval_metrics(
-        #    segmentations, masks_gt
-        #)
-        #full_pixel_auroc = pixel_scores["auroc"]
-        #full_pixel_auroc = None
+        pixel_scores = metrics.compute_pixelwise_retrieval_metrics(
+            segmentations, masks_gt
+        )
+        full_pixel_auroc = pixel_scores["auroc"]
 
-        return None
+        return auroc, full_pixel_auroc
     
     def _evaluate(self, test_data, scores, segmentations, features, labels_gt, masks_gt):
         
@@ -684,8 +683,10 @@ class SimpleNet(torch.nn.Module):
         else:
             image = data.cpu().numpy()
             image = data[0]
+            image = image.cpu().numpy()
             masks_provided = False
             mask = np.zeros_like(image)
+            segmentations = segmentations.cpu.numpy()
             segmentation = segmentations[0]
             savename = "/content/result.jpg"
             f, axes = plt.subplots(1, 2 + int(masks_provided))

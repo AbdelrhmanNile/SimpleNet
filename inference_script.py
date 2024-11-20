@@ -5,6 +5,20 @@ import utils
 import PIL
 from torchvision import transforms
 
+from datasets.mvtec import MVTecDataset
+from datasets.mvtec import DatasetSplit
+
+
+
+test_dataset = MVTecDataset(
+                "/content/dataset",
+                classname=["screw"],
+                resize=329,
+                imagesize=288,
+                split=DatasetSplit.TEST,
+                seed=0,
+)
+
 IMAGENET_MEAN = [0.485, 0.456, 0.406]
 IMAGENET_STD = [0.229, 0.224, 0.225]
 
@@ -36,5 +50,5 @@ img = transform_img(img)
 #make batch of 1
 img = img.unsqueeze(0)
 
-print(model.test(test_data=img, save_segmentation_images=True, ckpt_path="/content/ckpt.pth"))
+print(model.test(test_data=test_dataset, save_segmentation_images=True, ckpt_path="/content/ckpt.pth"))
 

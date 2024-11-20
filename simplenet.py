@@ -136,6 +136,7 @@ class SimpleNet(torch.nn.Module):
         print(layers_to_extract_from)
         print("########")
         print(input_shape)
+        exit()
         pid = os.getpid()
         def show_mem():
             return(psutil.Process(pid).memory_info())

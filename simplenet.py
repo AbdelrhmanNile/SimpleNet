@@ -136,7 +136,6 @@ class SimpleNet(torch.nn.Module):
         print(layers_to_extract_from)
         print("########")
         print(input_shape)
-        exit()
         pid = os.getpid()
         def show_mem():
             return(psutil.Process(pid).memory_info())
@@ -292,9 +291,10 @@ class SimpleNet(torch.nn.Module):
         return features, patch_shapes
 
     
-    def test(self, training_data, test_data, save_segmentation_images):
+    def test(self, training_data=None, test_data=None, save_segmentation_images=None, ckpt_path=None):
 
-        ckpt_path = os.path.join(self.ckpt_dir, "models.ckpt")
+        if ckpt_path is None:
+            ckpt_path = os.path.join(self.ckpt_dir, "models.ckpt")
         if os.path.exists(ckpt_path):
             state_dicts = torch.load(ckpt_path, map_location=self.device)
             if "pretrained_enc" in state_dicts:

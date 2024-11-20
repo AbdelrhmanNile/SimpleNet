@@ -26,5 +26,5 @@ model.load(
 img_path = "path/to/image.jpg"
 img = PIL.Image.open(image_path).convert("RGB")
 
-print(model._predict(img))
+print(model.test(test_data=img, save_segmentation_images=True))
 

@@ -7,7 +7,7 @@ from torchvision import transforms
 
 from datasets.mvtec import MVTecDataset
 from datasets.mvtec import DatasetSplit
-
+import cv2
 
 
 test_dataset = MVTecDataset(
@@ -49,7 +49,7 @@ model.load(
 )
 
 
-img_path = "/content/dataset/screw/test/scratch_neck/000.png"
+""" img_path = "/content/dataset/screw/test/scratch_neck/000.png"
 img = PIL.Image.open(img_path).convert("RGB")
 # to batch of tensors
 transform_img = [transforms.Resize(288),transforms.ToTensor(),transforms.Normalize(mean=IMAGENET_MEAN, std=IMAGENET_STD)]
@@ -57,7 +57,12 @@ transform_img = transforms.Compose(transform_img)
 img = transform_img(img)
 
 #make batch of 1
-img = img.unsqueeze(0)
+img = img.unsqueeze(0) """
 
-print(model.test(test_data=test_dataloader, save_segmentation_images=True, ckpt_path="/content/ckpt.pth"))
+#print(model.test(test_data=test_dataloader, save_segmentation_images=True, ckpt_path="/content/ckpt.pth"))
 
+
+scores, masks, features, labels_gt, masks_gt = model.predict(test_dataloader)
+
+
+model.save_segmentation_images(test_dataloader, masks, scores)

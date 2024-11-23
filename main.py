@@ -24,6 +24,7 @@ LOGGER = logging.getLogger(__name__)
 
 _DATASETS = {
     "mvtec": ["datasets.mvtec", "MVTecDataset"],
+    "dronodat": ["datasets.dronodat", "RunwayDataset"],
 }
 
 

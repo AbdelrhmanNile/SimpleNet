@@ -149,8 +149,8 @@ class RunwayDataset(torch.utils.data.Dataset):
                         ][anomaly][train_val_split_idx:]
 
                 if self.split == DatasetSplit.TEST and anomaly != "good":
-                    anomaly_mask_path = os.path.join(maskpath, anomaly)
-                    anomaly_mask_files = sorted(os.listdir(anomaly_mask_path))
+                    #anomaly_mask_path = os.path.join(maskpath, anomaly)
+                    #anomaly_mask_files = sorted(os.listdir(anomaly_mask_path))
                     maskpaths_per_class[classname][anomaly] = None
                 else:
                     maskpaths_per_class[classname]["good"] = None

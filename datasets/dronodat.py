@@ -14,9 +14,9 @@ IMAGENET_STD = [0.229, 0.224, 0.225]
 
 
 class DatasetSplit(Enum):
-    TRAIN = "train"
+    TRAIN = "Clean"
     VAL = "val"
-    TEST = "test"
+    TEST = "Dirty"
 
 
 class RunwayDataset(torch.utils.data.Dataset):
@@ -151,9 +151,7 @@ class RunwayDataset(torch.utils.data.Dataset):
                 if self.split == DatasetSplit.TEST and anomaly != "good":
                     anomaly_mask_path = os.path.join(maskpath, anomaly)
                     anomaly_mask_files = sorted(os.listdir(anomaly_mask_path))
-                    maskpaths_per_class[classname][anomaly] = [
-                        os.path.join(anomaly_mask_path, x) for x in anomaly_mask_files
-                    ]
+                    maskpaths_per_class[classname][anomaly] = None
                 else:
                     maskpaths_per_class[classname]["good"] = None
 

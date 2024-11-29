@@ -15,7 +15,7 @@ import math
 import numpy as np
 import torch
 import torch.nn.functional as F
-from tqdm.notebook import tqdm
+import tqdm.notebook as tqdm
 from torch.utils.tensorboard import SummaryWriter
 
 import common

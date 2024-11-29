@@ -194,6 +194,7 @@ def net(
             backbone.name, backbone.seed = backbone_name, backbone_seed
 
             simplenet_inst = simplenet.SimpleNet(device)
+            print(cos_lr)
             simplenet_inst.load(
                 backbone=backbone,
                 layers_to_extract_from=layers_to_extract_from,

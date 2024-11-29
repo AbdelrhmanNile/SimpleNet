@@ -430,8 +430,10 @@ class SimpleNet(torch.nn.Module):
         for i_mepoch in range(self.meta_epochs):
 
             self._train_discriminator(training_data)
+            update_state_dict(state_dict)
+            state_dict = OrderedDict({k:v.detach().cpu() for k, v in self.state_dict().items()})
 
-            # torch.cuda.empty_cache()
+            """ # torch.cuda.empty_cache()
             scores, segmentations, features, labels_gt, masks_gt = self.predict(test_data)
             auroc, full_pixel_auroc, pro = self._evaluate(test_data, scores, segmentations, features, labels_gt, masks_gt)
             self.logger.logger.add_scalar("i-auroc", auroc, i_mepoch)
@@ -455,7 +457,7 @@ class SimpleNet(torch.nn.Module):
 
             print(f"----- {i_mepoch} I-AUROC:{round(auroc, 4)}(MAX:{round(best_record[0], 4)})"
                   f"  P-AUROC{round(full_pixel_auroc, 4)}(MAX:{round(best_record[1], 4)}) -----"
-                  f"  PRO-AUROC{round(pro, 4)}(MAX:{round(best_record[2], 4)}) -----")
+                  f"  PRO-AUROC{round(pro, 4)}(MAX:{round(best_record[2], 4)}) -----") """
         
         torch.save(state_dict, ckpt_path)
         

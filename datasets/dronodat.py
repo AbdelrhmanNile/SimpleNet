@@ -162,7 +162,8 @@ class RunwayDataset(torch.utils.data.Dataset):
                 for i, image_path in enumerate(imgpaths_per_class[classname][anomaly]):
                     data_tuple = [classname, anomaly, image_path]
                     if self.split == DatasetSplit.TEST and anomaly != "good":
-                        data_tuple.append(maskpaths_per_class[classname][anomaly][i])
+                        #data_tuple.append(maskpaths_per_class[classname][anomaly][i])
+                        data_tuple.append(None)
                     else:
                         data_tuple.append(None)
                     data_to_iterate.append(data_tuple)

@@ -352,7 +352,7 @@ class SimpleNet(torch.nn.Module):
     
     def _evaluate(self, test_data, scores, segmentations, features, labels_gt, masks_gt):
         
-        scores = np.squeeze(np.array(scores))
+        """ scores = np.squeeze(np.array(scores))
         img_min_scores = scores.min(axis=-1)
         img_max_scores = scores.max(axis=-1)
         scores = (scores - img_min_scores) / (img_max_scores - img_min_scores)
@@ -390,9 +390,10 @@ class SimpleNet(torch.nn.Module):
                                             norm_segmentations)
         else:
             full_pixel_auroc = -1 
-            pro = -1
+            pro = -1 """
 
-        return auroc, full_pixel_auroc, pro
+        #return auroc, full_pixel_auroc, pro
+        return 0, 0, 0
         
     
     def train(self, training_data, test_data):

@@ -14,9 +14,9 @@ IMAGENET_STD = [0.229, 0.224, 0.225]
 
 
 class DatasetSplit(Enum):
-    TRAIN = "Clean"
+    TRAIN = "train"
     VAL = "val"
-    TEST = "Dirty"
+    TEST = "test"
 
 
 class RunwayDataset(torch.utils.data.Dataset):

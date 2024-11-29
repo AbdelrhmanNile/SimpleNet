@@ -544,6 +544,7 @@ class SimpleNet(torch.nn.Module):
                 pbar_str = f"epoch:{i_epoch} loss:{round(all_loss, 5)} "
                 pbar_str += f"lr:{round(cur_lr, 6)}"
                 pbar_str += f" p_true:{round(all_p_true, 3)} p_fake:{round(all_p_fake, 3)}"
+                print(pbar_str)
                 if len(all_p_interp) > 0:
                     pbar_str += f" p_interp:{round(sum(all_p_interp) / len(input_data), 3)}"
                 pbar.set_description_str(pbar_str)

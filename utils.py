@@ -7,8 +7,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import PIL
 import torch
-import tqdm
-
+from tqdm.notebook import tqdm
 LOGGER = logging.getLogger(__name__)
 
 

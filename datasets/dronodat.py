@@ -41,6 +41,7 @@ class RunwayDataset(torch.utils.data.Dataset):
         h_flip_p=0,
         v_flip_p=0,
         scale=0,
+        num_to_test_on=10,
         **kwargs,
     ):
         """
@@ -65,6 +66,7 @@ class RunwayDataset(torch.utils.data.Dataset):
         self.train_val_split = train_val_split
         self.transform_std = IMAGENET_STD
         self.transform_mean = IMAGENET_MEAN
+        self.num_to_test_on = num_to_test_on
         self.imgpaths_per_class, self.data_to_iterate = self.get_image_data()
 
         self.transform_img = [
@@ -168,4 +170,6 @@ class RunwayDataset(torch.utils.data.Dataset):
                         data_tuple.append(None)
                     data_to_iterate.append(data_tuple)
 
+        if self.split == DatasetSplit.TEST:
+            return imgpaths_per_class, data_to_iterate[:self.num_to_test_on]
         return imgpaths_per_class, data_to_iterate
